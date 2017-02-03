@@ -3,14 +3,16 @@
 #include "prime.h"
 
 int main(int argc, char *argv[]) {
-    time_t start, end;
+    clock_t t0, t1;
+    double diffms;
     unsigned int counter;
 
-    start = time(0);
+    t0 = clock();
     counter = nbOfPrimesFound(300000); // 300,000
-    end = time(0);
+    t1 = clock();
+    diffms = (t1 - t0) / ( CLOCKS_PER_SEC / 1000 );
 
     printf("\nCounter: %d\n", counter);
-    printf("in %f seconds.\n", difftime(end, start));
+    printf("in %f ms.\n", diffms);
     return 0;
 }
