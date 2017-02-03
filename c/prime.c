@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "prime.h"
 
 unsigned int nbOfPrimesFound(unsigned int until) {
     unsigned int i, j, isPrime, counter = 1;
