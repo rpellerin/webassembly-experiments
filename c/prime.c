@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include "prime.h"
 
-int ModulePrime(unsigned int until) {
+unsigned int nbOfPrimesFound(unsigned int until) {
     unsigned int i, j, isPrime, counter = 1;
     for (i = 3; i <= until; i = i + 2) {
         isPrime = 1;
@@ -15,5 +16,5 @@ int ModulePrime(unsigned int until) {
             counter++;
         }
     }
-    printf("\nCounter: %d\n", counter);
+    return counter;
 }

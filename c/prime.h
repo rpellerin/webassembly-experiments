@@ -1,1 +1,1 @@
-int prime(int);
+unsigned int nbOfPrimesFound(unsigned int);
