@@ -3,4 +3,4 @@
 *.DS_Store
 Icon
 *.swp
-
+node_modules
