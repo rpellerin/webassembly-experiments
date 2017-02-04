@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     unsigned int counter;
 
     t0 = clock();
-    counter = nbOfPrimesFound(300000); // 300,000
+    counter = nbOfPrimesFound(400000); // 400,000
     t1 = clock();
     diffms = (t1 - t0) / ( CLOCKS_PER_SEC / 1000 );
 

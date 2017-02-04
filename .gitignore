@@ -2,5 +2,5 @@
 .LSOverride
 *.DS_Store
 Icon
-.swp
+*.swp
 
