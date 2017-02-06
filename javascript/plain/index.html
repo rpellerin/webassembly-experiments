@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="prime.js"></script>
+    </head>
+    <body>
+        <form action="" method="post">
+            Find prime numbers between 2 and <input min="2" type="number" id="nb" value="300000"/><button onClick="run(); return false;">Run</button>
+        </form>
+        <div id="results">
+        </div>
+        <script type="text/javascript">
+            function run() {
+                document.getElementById("results").innerHTML += "<br />";
+
+                var t0 = performance.now();
+                var counter = nbOfPrimesFound(document.getElementById("nb").value);
+                var t1 = performance.now();
+
+                var timeTaken = t1 - t0;
+
+                console.log("Found " + counter + " prime numbers, in " + timeTaken + " ms.")
+                document.getElementById("results").innerHTML += "<br />Counter: " + counter + ", in " + timeTaken + "ms.";
+            }
+        </script>
+    </body>
+</html>

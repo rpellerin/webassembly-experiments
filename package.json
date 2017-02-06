@@ -1,7 +1,6 @@
 {
   "name": "webassembly-experiments",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "git@github.com:rpellerin/webassembly-experiments.git",
   "author": "Romain Pellerin <romain.pellerin@inovia-team.com>",
   "license": "MIT",
