@@ -63,23 +63,46 @@ TODO: screenshot
 
 The build process should work fine on any platform with `emscripten`.
 
-To build:
+### C program
+
+To build the C program:
 
 ```bash
 $ npm run build-c
 $ npm run build-c-o3
-$ npm run build-asm
-$ npm run build-wasm
 ```
-The first two commands compile the C program into `build/` (non-optimized and optimized with the -O3 flag).
 
+Those two commands compile the C program into `build/` (non-optimized and optimized with the -O3 flag).
 
 To execute both C / native examples:
+
 ```bash
 $ npm run c <number>
 $ npm run c-o3 <number>
 ```
 
+`<number>` is optional. Default value is 400,000.
+
+### ams.js and WebAssembly files
+
+To build ams.js and WebAssembly files, first install `emscripten`:
+
+```bash
+$ git clone https://github.com/juj/emsdk.git
+$ cd emsdk
+$ ./emsdk install sdk-incoming-64bit binaryen-master-64bit
+$ ./emsdk activate sdk-incoming-64bit binaryen-master-64bit
+$ source ./emsdk_env.sh
+```
+
+Then, build the actual files:
+
+```bash
+$ npm run build-asm
+$ npm run build-wasm
+```
+
+They will be output in `build/`, overwriting any previously existing file.
 
 ## License
 
