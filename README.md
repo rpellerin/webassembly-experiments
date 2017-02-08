@@ -35,20 +35,21 @@ In `chrome://flags/`, enable the following flags:
 
 ```bash
 npm run build-c
-npm run build-c-optimized-o3
-npm run c-all <number>
+npm run build-c-o3
+npm run c <number>
+npm run c-o3 <number>
 
 npm run build-asm
 npm run build-wasm
 
-npm run server
+npm run serve
 ```
 
 The first two commands compile the C program into `build/` (non-optimized and optimized with the -O3 flag).
 
-Then, the third command run the two compiled C program. An optional custom number can be specified (default 400,000).
+Then, the third and fourth commands run the two compiled C program. An optional custom number can be specified (default 400,000).
 
-The forth and fith command build ASM.js and WebAssembly files from the C function.
+The fifth and sixth commands build ASM.js and WebAssembly files from the C function.
 
 The last command run a web server accessible at [http://localhost:8080](http://localhost:8080). On this page, you can run three different Javascript benchmarks:
 

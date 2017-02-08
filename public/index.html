@@ -15,13 +15,14 @@
                 document.getElementById("results").innerHTML += "<br />";
 
                 var t0 = performance.now();
-                var counter = nbOfPrimesFound(document.getElementById("nb").value);
+                var nb = document.getElementById("nb").value;
+                var counter = nbOfPrimesFound(nb);
                 var t1 = performance.now();
 
                 var timeTaken = t1 - t0;
 
-                console.log("Found " + counter + " prime numbers, in " + timeTaken + " ms.")
-                document.getElementById("results").innerHTML += "<br />Counter: " + counter + ", in " + timeTaken + "ms.";
+                console.log("Number of prime numbers between 2 and " + nb + " found: " + counter + ", in " + timeTaken + " ms.")
+                document.getElementById("results").innerHTML += "<br />Number of prime numbers between 2 and " + nb + " found: " + counter + ", in " + timeTaken + " ms.";
             }
         </script>
     </body>

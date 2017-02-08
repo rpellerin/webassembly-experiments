@@ -2,9 +2,10 @@
 .LSOverride
 *.DS_Store
 Icon
+
 *.swp
+
 node_modules
 npm-debug.log
 
-c/prime.*js
-c/prime.html
+build/
