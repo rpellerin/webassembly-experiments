@@ -11,8 +11,8 @@ fs.readFile(inputFile, 'utf8', function (err, data) {
     console.error(err)
     process.exit(1)
   }
-  var result = data.replace('Module["asm"] = (function', 'function asmCall')
-                   .replace('});', '}')
+  var result = data.replace('Module["asm"]', 'var asmCall')
+                   .replace('});', '})(0,{STACKTOP:0},0)')
 
   fs.writeFile(inputFile, result, 'utf8', function (err) {
     if (err) {

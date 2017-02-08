@@ -1,4 +1,4 @@
-function asmCall(global, env, buffer) {
+var asmCall = (function(global, env, buffer) {
  "use asm";
  function $(a) {
   a = a | 0;
@@ -34,7 +34,7 @@ function asmCall(global, env, buffer) {
  return {
   _nbOfPrimesFound: $
  };
-}
+})(0,{STACKTOP:0},0)
 
 
 
