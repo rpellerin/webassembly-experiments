@@ -12,8 +12,8 @@
     "build-c-o3": "mkdir -p build; gcc -O3 c/main.c c/prime.c -o build/build-c-o3",
     "c": " build/build-c",
     "c-o3": " build/build-c-o3",
-    "build-asm": " build/prime_O3",
-    "build-wasm": " build/prime_O3",
+    "build-asm": "emcc c/prime.c -o build/build-asm.js -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" --separate-asm -s ONLY_MY_CODE=1 && rm -f build/build-asm.js && node scripts/formatAsm.js build/build-asm.asm.js && echo Done",
+    "build-wasm": "echo TODO",
     "serve": "cp -f public/index.html public/plain-javascript.js build && ./node_modules/.bin/pushstate-server build 8080"
   }
 }
