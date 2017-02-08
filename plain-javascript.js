@@ -1,4 +1,4 @@
-function nbOfPrimesFound (nb) {
+function plain_nbOfPrimesFound (nb) {
   var isPrime, i, j, counter = 1
 
   for (i = 3; i <= nb; i = i + 2) {
