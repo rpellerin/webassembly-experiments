@@ -1,4 +1,4 @@
-importScripts('plain-javascript.js', 'build-asm.asm.js')
+importScripts('plain-javascript.js', 'build-asm.asm.js', 'load-wasm.js')
 
 onmessage = function(e) {
   [plain_nbOfPrimesFound, asmCall._nbOfPrimesFound].forEach((curr, index, array) => {
