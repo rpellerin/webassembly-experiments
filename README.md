@@ -9,7 +9,7 @@ Type the url `about:config`, click 'I accept the risk', then change the two foll
 - javascript.options.wasm: true
 - javascript.options.wasm_baselinejit: true
 
-![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/ff-wasm-activate.png)
+<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/ff-wasm-activate.png" alt="Screenshot" width="600" />
 
 
 ## Configure Chrome for WebAssembly (>= 56.0)
@@ -20,7 +20,7 @@ Type the url `chrome://flags/`, enable the following flags:
 - WebAssembly structured cloning support
 - Experimental JavaScript Compilation Pipeline
 
-![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/chrome-wasm-activate.png)
+<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/chrome-wasm-activate.png" alt="Screenshot" width="700" />
 
 
 ## Run the examples
