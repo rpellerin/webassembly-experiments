@@ -8,4 +8,6 @@ Icon
 node_modules
 npm-debug.log
 
-build/
+build/build-c*
+build/index.html
+build/plain-javascript.js

@@ -20,6 +20,6 @@ int main(int argc, char *argv[]) {
     diffms = (t1 - t0) / ( CLOCKS_PER_SEC / 1000 ); // Run time calculation
 
     // Display results
-    printf("Number of prime numbers between 2 and %d found: %d, in %f ms.", nb, counter, diffms);
+    printf("Number of prime numbers between 2 and %d found: %d, in %f ms.\n", nb, counter, diffms);
     return 0;
 }
