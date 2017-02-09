@@ -8,4 +8,9 @@ Icon
 node_modules
 npm-debug.log
 
-build/build-c*
+# Builds
+public/build/build-c
+public/build/build-c-o3
+public/build/build-asm.js
+public/build/build-wasm.js
+public/build/build-wasm.asm.js
