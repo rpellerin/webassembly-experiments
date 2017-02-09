@@ -8,13 +8,13 @@
                 border: 1px solid black;
                 padding: 5px;
             }
-            .fast {
+            .fastSpeed {
                 background-color: #CFC
             }
-            .slower {
+            .normalSpeed {
                 background-color: #FFB
             }
-            .slowest {
+            .slowSpeed {
                 background-color: #F99
             }
         </style>
@@ -63,19 +63,13 @@
                 const tdsArray = []
                 const resultHandler = data => {
                     tds[data.name].innerHTML = `${data.result} <br><strong>${data.timeTaken}</strong> ms`
-                    tds[data.name].timeTaken = data.timeTaken
-
-                    tdsArray.push(tds[data.name])
-                    tdsArray.sort((td1, td2) => td1.timeTaken - td2.timeTaken )
-                            .forEach( (td, index) => {
-                                switch(index) {
-                                    case 0: return td.className = 'fast'
-                                    case 1: return td.className = 'slower'
-                                    case 2: return td.className = 'slowest'
-                                }
-                            })
+                    tds[data.name].className = 'normalSpeed'
                 }
                 const readyHandler = data => worker.postMessage({actionType: 'run'})
+                const timeResultsHandler = data => {
+                    tds[data.slow].className = 'slowSpeed'
+                    tds[data.fast].className = 'fastSpeed'
+                }
 
                 var worker = new Worker('worker.js')
 
@@ -85,6 +79,8 @@
                             return readyHandler(data)
                         case 'result':
                             return resultHandler(data)
+                        case 'timeResults':
+                            return timeResultsHandler(data)
                     }
                 }
                 worker.postMessage({actionType:'init', upperLimitPrime})
