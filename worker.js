@@ -14,21 +14,20 @@ const runHandler = function(data) {
     postMessage({actionType: 'result', name, timeTaken: timeTaken[name], result})
   }
 
-  var min = {value: Math.Infinity, name: null}
+  var min = {value: Infinity, name: null}
+  console.log(min)
   for (var name in timeTaken) {
-    if (min > timeTaken[name].value) {
+    if (min.value > timeTaken[name]) {
       min = {value: timeTaken[name], name}
     }
   }
-
   var max = {value: -1, name: null}
   for (var name in timeTaken) {
-    if (max < timeTaken[name].name) {
+    if (max.value < timeTaken[name]) {
       max = {value: timeTaken[name], name}
     }
   }
-
-  postMessage({actionType: 'timeResults', max, min})
+  postMessage({actionType: 'timeResults', slow: max.name, fast: min.name})
 }
 
 const initHandler = function(data) {
