@@ -12,5 +12,3 @@ npm-debug.log
 public/build/build-c
 public/build/build-c-o3
 public/build/build-asm.js
-public/build/build-wasm.js
-public/build/build-wasm.asm.js
