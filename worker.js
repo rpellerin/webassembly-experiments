@@ -1,4 +1,4 @@
-importScripts('plain-javascript.js', 'build/build-asm.asm.js')
+importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
 const wasm_nbOfPrimesFound = () => 'not implemented'
 
