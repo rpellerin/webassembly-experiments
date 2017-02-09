@@ -47,14 +47,14 @@ On a 2015 Macbook Pro (64-bit) running macOS Sierra 10.12.3. For each method tes
 
 | Method               | Average run time in ms |
 | -------------------- |:-------------:| -----:|
-| Native C             | 1236                  |
-| Native C optimized   | 1181                  |
-| Plain JS Firefox     | 1056                  |
-| asm.js Firefox       | 1056                  |
-| WebAssembly Firefox  | 1056                  |
-| Plain JS Chrome     | 1056                  |
-| asm.js Chrome        | 1056                  |
-| WebAssembly Chrome   | 1056                  |
+| Native C             | to come                  |
+| Native C optimized   | to come                  |
+| Plain JS Firefox     | to come                  |
+| asm.js Firefox       | to come                  |
+| WebAssembly Firefox  | to come                  |
+| Plain JS Chrome     | to come                  |
+| asm.js Chrome        | to come                  |
+| WebAssembly Chrome   | to come                  |
 
 TODO: screenshot
 ![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/data/assets/screenshot.gif)
