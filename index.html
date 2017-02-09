@@ -13,7 +13,7 @@
     <body>
         <h1>asm.js / WebAssembly examples</h1>
         <form action="" method="post" onsubmit="return false;">
-            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="300000"/><button onClick="run(); return false;">Run</button>
+            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="3000"/><button onClick="run(); return false;">Run</button>
         </form>
         <br />
         <table id="results-table">
@@ -26,7 +26,6 @@
                 </tr>
             </thead>
         </table>
-        </div>
         <script type="text/javascript">
 
 
@@ -52,16 +51,21 @@
                 tds.wasm_nbOfPrimesFound = attachTdTo(tr)
                 document.getElementById("results-table").appendChild(tr)
 
-                const listenerDisplayResult = (message) => tds[message.data.name].innerHTML = `${message.data.result} <br> ${message.data.timeTaken} ms`
+                const resultHandler = data => tds[data.name].innerHTML = `${data.result} <br><strong>${data.timeTaken}</strong> ms`
+                const readyHandler = data => worker.postMessage({actionType: 'run'})
 
                 var worker = new Worker('worker.js')
+
                 worker.onmessage = ({ data }) => {
-                    if (data.ready) {
-                        worker.onmessage = listenerDisplayResult
-                        worker.postMessage(upperLimitPrime)
+                    switch(data.actionType) {
+                        case 'ready' :
+                            return readyHandler(data)
+                        case 'results':
+                            return resultHandler(data)
                     }
                 }
-                worker.postMessage({})
+                worker.postMessage({actionType:'init', upperLimitPrime})
+
             }
         </script>
     </body>

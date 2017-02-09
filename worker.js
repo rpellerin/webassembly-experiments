@@ -1,32 +1,37 @@
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
+const wasm_nbOfPrimesFound = () => 'Not loaded yet'
 
-const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound}
+const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfPrimesFound}
+var upperLimitPrime = null
 
-const listenerBenchmarks = function({data}) {
+const runHandler = function(data) {
   for(var name in functionsToBench) {
     const startTime = performance.now()
-    const result = functionsToBench[name](data)
+    const result = functionsToBench[name](upperLimitPrime)
     const timeTaken = Math.round(performance.now() - startTime)
-    postMessage({name, timeTaken, result})
+    postMessage({actionType: 'results', name, timeTaken, result})
   }
 }
 
-const listenerStart = function() {
+const initHandler = function(data) {
+  upperLimitPrime = data.upperLimitPrime
   loadWebAssembly('build/build-wasm.wasm')
     .then( instance => {
       var exports = instance.exports // the exports of that instance
       functionsToBench.wasm_nbOfPrimesFound = exports._nbOfPrimesFound // our function
-    }
-    )
+    })
     .catch( error => {
-      const wasm_nbOfPrimesFound = () => error.message
-      functionsToBench.wasm_nbOfPrimesFound = wasm_nbOfPrimesFound
+      functionsToBench.wasm_nbOfPrimesFound = () => error.message
     })
     .then( () => {
-      this.onmessage = listenerBenchmarks
-      postMessage({ ready: true })
+      postMessage({actionType:'ready'})
     })
 }
 
-onmessage = listenerStart
+onmessage = function({data}) {
+  switch(data.actionType){
+    case 'init': return initHandler(data)
+    case 'run': return runHandler(data)
+  }
+}
