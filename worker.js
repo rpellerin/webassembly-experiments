@@ -6,12 +6,29 @@ const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfP
 var upperLimitPrime = null
 
 const runHandler = function(data) {
+  const timeTaken = {}
   for(var name in functionsToBench) {
     const startTime = performance.now()
-    const result = functionsToBench[name](upperLimitPrime)
-    const timeTaken = Math.round(performance.now() - startTime)
-    postMessage({actionType: 'results', name, timeTaken, result})
+    const result  = functionsToBench[name](upperLimitPrime)
+    timeTaken[name] = Math.round(performance.now() - startTime)
+    postMessage({actionType: 'result', name, timeTaken: timeTaken[name], result})
   }
+
+  var min = {value: Math.Infinity, name: null}
+  for (var name in timeTaken) {
+    if (min > timeTaken[name].value) {
+      min = {value: timeTaken[name], name}
+    }
+  }
+
+  var max = {value: -1, name: null}
+  for (var name in timeTaken) {
+    if (max < timeTaken[name].name) {
+      max = {value: timeTaken[name], name}
+    }
+  }
+
+  postMessage({actionType: 'timeResults', max, min})
 }
 
 const initHandler = function(data) {

@@ -8,12 +8,21 @@
                 border: 1px solid black;
                 padding: 5px;
             }
+            .fast {
+                background-color: #CFC
+            }
+            .slower {
+                background-color: #FFB
+            }
+            .slowest {
+                background-color: #F99
+            }
         </style>
     </head>
     <body>
         <h1>asm.js / WebAssembly examples</h1>
         <form action="" method="post" onsubmit="return false;">
-            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="3000"/><button onClick="run(); return false;">Run</button>
+            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="100000"/><button onClick="run(); return false;">Run</button>
         </form>
         <br />
         <table id="results-table">
@@ -42,16 +51,30 @@
                     return td
                 }
 
-                var upperLimitPrime = document.getElementById("upper-limit-prime").value;
-                var tr = document.createElement('tr')
-                var tds = {}
+                const upperLimitPrime = document.getElementById("upper-limit-prime").value;
+                const tr = document.createElement('tr')
+                const tds = {}
                 tds.upperLimitPrime = attachTdTo(tr, upperLimitPrime)
                 tds.plain_nbOfPrimesFound = attachTdTo(tr)
                 tds.asm_nbOfPrimesFound = attachTdTo(tr)
                 tds.wasm_nbOfPrimesFound = attachTdTo(tr)
                 document.getElementById("results-table").appendChild(tr)
 
-                const resultHandler = data => tds[data.name].innerHTML = `${data.result} <br><strong>${data.timeTaken}</strong> ms`
+                const tdsArray = []
+                const resultHandler = data => {
+                    tds[data.name].innerHTML = `${data.result} <br><strong>${data.timeTaken}</strong> ms`
+                    tds[data.name].timeTaken = data.timeTaken
+
+                    tdsArray.push(tds[data.name])
+                    tdsArray.sort((td1, td2) => td1.timeTaken - td2.timeTaken )
+                            .forEach( (td, index) => {
+                                switch(index) {
+                                    case 0: return td.className = 'fast'
+                                    case 1: return td.className = 'slower'
+                                    case 2: return td.className = 'slowest'
+                                }
+                            })
+                }
                 const readyHandler = data => worker.postMessage({actionType: 'run'})
 
                 var worker = new Worker('worker.js')
@@ -60,7 +83,7 @@
                     switch(data.actionType) {
                         case 'ready' :
                             return readyHandler(data)
-                        case 'results':
+                        case 'result':
                             return resultHandler(data)
                     }
                 }
