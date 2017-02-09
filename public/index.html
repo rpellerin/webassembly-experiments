@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <script src="load-wasm.js"></script>
         <style>
             table { border-collapse: collapse }
             th, td {
@@ -53,10 +52,16 @@
                 tds.wasm_nbOfPrimesFound = attachTdTo(tr)
                 document.getElementById("results-table").appendChild(tr)
 
-                var worker = new Worker('worker.js')
-                worker.onmessage = message => tds[message.data.name].innerHTML = `${message.data.result} <br> ${message.data.timeTaken} ms`
+                const listenerDisplayResult = (message) => tds[message.data.name].innerHTML = `${message.data.result} <br> ${message.data.timeTaken} ms`
 
-                worker.postMessage(upperLimitPrime)
+                var worker = new Worker('worker.js')
+                worker.onmessage = ({ data }) => {
+                    if (data.ready) {
+                        worker.onmessage = listenerDisplayResult
+                        worker.postMessage(upperLimitPrime)
+                    }
+                }
+                worker.postMessage({})
             }
         </script>
     </body>
