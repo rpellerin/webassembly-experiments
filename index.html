@@ -13,14 +13,14 @@
     <body>
         <h1>asm.js / WebAssembly examples</h1>
         <form action="" method="post" onsubmit="return false;">
-            Find prime numbers between 2 and <input min="2" type="number" id="nb" value="300000"/><button onClick="run(); return false;">Run</button>
+            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="300000"/><button onClick="run(); return false;">Run</button>
         </form>
         <br />
-        <table id="results">
+        <table id="results-table">
             <thead>
                 <tr>
-                    <th>Number</th>
-                    <th>Plain old Javascript</th>
+                    <th>Upper limit</th>
+                    <th>Plain Javascript</th>
                     <th>asm.js</th>
                     <th>WebAssembly</th>
                 </tr>
@@ -28,40 +28,34 @@
         </table>
         </div>
         <script type="text/javascript">
-            if (!window.Worker) alert('Your browser does not support Web Workers.')
 
-            var table = document.getElementById("results")
 
             function run() {
-                var worker1 =  new Worker('worker.js')
-                var nb = document.getElementById("nb").value;
-
-                var tr = document.createElement('tr')
-                var nbTD = document.createElement('td')
-                var plainTD = document.createElement('td')
-                var asmTD = document.createElement('td')
-                var wasmTD = document.createElement('td')
-
-                nbTD.innerHTML = nb
-                tr.appendChild(nbTD)
-
-                var tds = [plainTD,asmTD,wasmTD]
-                tds.forEach((curr) => {
-                    curr.innerHTML = 'Running...'
-                    tr.appendChild(curr)
-                })
-
-                table.appendChild(tr);
-
-                if (window.Worker) {
-                    worker1.postMessage([nb])
-                    worker1.onmessage = (e) => {
-                        tds.forEach((curr, index) => {
-                            if (e.data[index]) curr.innerHTML = e.data[index].timeTaken + ' ms'
-                        })
-                    }
+                if (!window.Worker) {
+                    alert('Your browser does not support Web Workers.')
+                    return
                 }
-                else alert('Your browser does not support Web Workers.')
+
+                function attachTdTo(tr, val = 'Running...') {
+                    let td = document.createElement('td')
+                    td.innerHTML = val
+                    tr.appendChild(td)
+                    return td
+                }
+
+                var upperLimitPrime = document.getElementById("upper-limit-prime").value;
+                var tr = document.createElement('tr')
+                var tds = {}
+                tds.upperLimitPrime = attachTdTo(tr, upperLimitPrime)
+                tds.plain_nbOfPrimesFound = attachTdTo(tr)
+                tds.asm_nbOfPrimesFound = attachTdTo(tr)
+                tds.wasm_nbOfPrimesFound = attachTdTo(tr)
+                document.getElementById("results-table").appendChild(tr)
+
+                var worker = new Worker('worker.js')
+                worker.onmessage = message => tds[message.data.name].innerHTML = `${message.data.result} <br> ${message.data.timeTaken} ms`
+
+                worker.postMessage(upperLimitPrime)
             }
         </script>
     </body>
