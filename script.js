@@ -41,6 +41,7 @@ function run () {
   tds.plain_nbOfPrimesFound = attachTdTo(tr)
   tds.asm_nbOfPrimesFound = attachTdTo(tr)
   tds.wasm_nbOfPrimesFound = attachTdTo(tr)
+  tds.wasm_imprecise_nbOfPrimesFound = attachTdTo(tr)
   document.getElementById('results-table').appendChild(tr)
 
   const resultHandler = data => {
