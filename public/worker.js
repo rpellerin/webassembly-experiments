@@ -1,3 +1,13 @@
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is licensed exclusively to Inovia Team.
+ *
+ * @copyright   Copyright (c) 2017 Inovia Team (http://www.inovia.fr)
+ * @license     MIT
+ * @author      The Inovia Dev Team
+ */
+
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'

@@ -1,3 +1,13 @@
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is licensed exclusively to Inovia Team.
+ *
+ * @copyright   Copyright (c) 2017 Inovia Team (http://www.inovia.fr)
+ * @license     MIT
+ * @author      The Inovia Dev Team
+ */
+
 function run () {
   if (!window.Worker) {
     alert('Your browser does not support Web Workers.')
