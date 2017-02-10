@@ -15,7 +15,6 @@ const runHandler = function(data) {
   }
 
   var min = {value: Infinity, name: null}
-  console.log(min)
   for (var name in timeTaken) {
     if (min.value > timeTaken[name]) {
       min = {value: timeTaken[name], name}
