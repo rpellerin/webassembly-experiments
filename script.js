@@ -8,6 +8,19 @@
  * @author      The Inovia Dev Team
  */
 
+/**
+ * This script contains one function 'run' which is executed
+ * when a user clicks on 'Show me'. It basically creates a worker,
+ * waits for it to be ready, and has it run three tests. These tests
+ * measure the run time of a function, always the same, executed in:
+ * - Plain Javascript
+ * - asm.js (built from C code)
+ * - WebAssembly (built from C code)
+ *
+ * Then the results are displayed in HTML. The 'run' function can be
+ * called several times.
+ **/
+
 function run () {
   if (!window.Worker) {
     alert('Your browser does not support Web Workers.')
