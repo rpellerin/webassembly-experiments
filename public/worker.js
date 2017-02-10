@@ -25,8 +25,9 @@
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
+const wasm_imprecise_nbOfPrimesFound = () => 'Not loaded yet'
 
-const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfPrimesFound}
+const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfPrimesFound, wasm_imprecise_nbOfPrimesFound}
 var upperLimitPrime = null
 
 const runHandler = function(data) {
@@ -60,17 +61,24 @@ const runHandler = function(data) {
   postMessage({actionType: 'timeResults', slow: max.name, fast: min.name})
 }
 
-const initHandler = function(data) {
-  upperLimitPrime = data.upperLimitPrime
-    loadWebAssembly('build/build-wasm.wasm')
+const loadWASM = function(file, functionTested) {
+  return loadWebAssembly(file)
     .then( instance => {
       var exports = instance.exports // the exports of that instance
-      functionsToBench.wasm_nbOfPrimesFound = exports._nbOfPrimesFound // our function
+      functionsToBench[functionTested] = exports._nbOfPrimesFound // our function
     })
     .catch( error => {
-      functionsToBench.wasm_nbOfPrimesFound = () => error.message
+      functionsToBench[functionTested] = () => error.message
     })
-    .then( () => {
+}
+
+const initHandler = function(data) {
+  upperLimitPrime = data.upperLimitPrime
+
+  const buildWasm          = loadWASM('build/build-wasm.wasm', wasm_nbOfPrimesFound.name)
+  const buildWasmImprecise = loadWASM('build/build-wasm-imprecise.wasm', wasm_imprecise_nbOfPrimesFound.name)
+
+  Promise.all([buildWasm, buildWasmImprecise]).then( values => {
       postMessage({actionType:'ready'})
     })
 }
