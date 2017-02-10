@@ -10,8 +10,15 @@ const runHandler = function(data) {
   for(var name in functionsToBench) {
     const startTime = performance.now()
     const result  = functionsToBench[name](upperLimitPrime)
-    timeTaken[name] = Math.round(performance.now() - startTime)
-    postMessage({actionType: 'result', name, timeTaken: timeTaken[name], result})
+    if (isNaN(result)) { // We got an error message
+      timeTaken[name] = Infinity
+      var error = true
+    }
+    else {
+      timeTaken[name] = Math.round(performance.now() - startTime)
+      var error = false
+    }
+    postMessage({actionType: 'result', name, timeTaken: timeTaken[name], result, error})
   }
 
   var min = {value: Infinity, name: null}
@@ -20,7 +27,7 @@ const runHandler = function(data) {
       min = {value: timeTaken[name], name}
     }
   }
-  var max = {value: -1, name: null}
+  var max = {value: 0, name: null}
   for (var name in timeTaken) {
     if (max.value < timeTaken[name]) {
       max = {value: timeTaken[name], name}
@@ -31,7 +38,7 @@ const runHandler = function(data) {
 
 const initHandler = function(data) {
   upperLimitPrime = data.upperLimitPrime
-  loadWebAssembly('build/build-wasm.wasm')
+    loadWebAssembly('build/build-wasm.wasm')
     .then( instance => {
       var exports = instance.exports // the exports of that instance
       functionsToBench.wasm_nbOfPrimesFound = exports._nbOfPrimesFound // our function

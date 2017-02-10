@@ -21,13 +21,18 @@ function run () {
   document.getElementById('results-table').appendChild(tr)
 
   const resultHandler = data => {
-    tds[data.name].innerHTML = `<strong>${data.timeTaken}</strong> ms`
+    tds[data.name].innerHTML = data.error ? data.result : `<strong>${data.timeTaken}</strong> ms`
     tds[data.name].className = 'normalSpeed'
   }
+
   const readyHandler = data => worker.postMessage({actionType: 'run'})
   const timeResultsHandler = data => {
-    tds[data.slow].className = 'slowSpeed'
-    tds[data.fast].className = 'fastSpeed'
+    if (data.slow) {
+      tds[data.slow].className = 'slowSpeed'
+    }
+    if (data.fast) {
+      tds[data.fast].className = 'fastSpeed'
+    }
   }
 
   var worker = new Worker('worker.js')
