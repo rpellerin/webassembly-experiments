@@ -3,10 +3,18 @@
     <head>
         <meta charset="utf-8">
         <style>
-            table { border-collapse: collapse }
+            table {
+                margin: auto;
+                border-collapse: collapse
+            }
+            body, thead { text-align: center}
             th, td {
                 border: 1px solid black;
                 padding: 5px;
+                width: 150px
+            }
+            td {
+                text-align: right
             }
             .fastSpeed {
                 background-color: #CFC
@@ -62,7 +70,7 @@
 
                 const tdsArray = []
                 const resultHandler = data => {
-                    tds[data.name].innerHTML = `${data.result} <br><strong>${data.timeTaken}</strong> ms`
+                    tds[data.name].innerHTML = `<strong>${data.timeTaken}</strong> ms`
                     tds[data.name].className = 'normalSpeed'
                 }
                 const readyHandler = data => worker.postMessage({actionType: 'run'})

@@ -4,10 +4,9 @@
 
 ## Configure Firefox for WebAssembly (>= 54.0)
 
-Type the url `about:config`, click 'I accept the risk', then change the two following configuration flags:
+Type the url `about:config`, click 'I accept the risk', then change the following configuration flag:
 
 - javascript.options.wasm: true
-- javascript.options.wasm_baselinejit: true
 
 <img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/ff-wasm-activate.png" alt="Screenshot" width="600" />
 
@@ -18,7 +17,6 @@ Type the url `chrome://flags/`, enable the following flags:
 
 - Experimental Validate asm.js and convert to WebAssembly when valid
 - WebAssembly structured cloning support
-- Experimental JavaScript Compilation Pipeline
 
 <img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/chrome-wasm-activate.png" alt="Screenshot" width="700" />
 
@@ -43,21 +41,22 @@ You can also find a native C version as well for baseline comparison.
 
 ## Results
 
-On a 2015 Macbook Pro (64-bit) running macOS Sierra 10.12.3. For each method tested, we performed 10 tests and calculated the average time run.
+On a 2015 Macbook Pro (64-bit) running macOS Sierra 10.12.3. For each method tested, we performed 10 tests and calculated the average time run. We took 500,000 as an upper limit number.
 
 | Method               | Average run time in ms |
-| -------------------- |:-------------:| -----:|
-| Native C             | to come                  |
-| Native C optimized   | to come                  |
-| Plain JS Firefox     | to come                  |
-| asm.js Firefox       | to come                  |
-| WebAssembly Firefox  | to come                  |
-| Plain JS Chrome     | to come                  |
-| asm.js Chrome        | to come                  |
-| WebAssembly Chrome   | to come                  |
+| -------------------- | ---------------------- |
+| Native C             | 11520.5                |
+| Native C optimized   | 9140.9                 |
+| Plain JS Firefox     | 10391.1                |
+| asm.js Firefox       | 8948.4                 |
+| WebAssembly Firefox  | 8999.3                 |
+| Plain JS Chrome      | 10541.8                |
+| asm.js Chrome        | 9728.2                 |
+| WebAssembly Chrome   | 10298.1                |
 
-TODO: screenshot
-![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/data/assets/screenshot.gif)
+## Example of the program running
+
+![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/screenshot.gif)
 
 ## Build from source
 
