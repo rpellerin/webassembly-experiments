@@ -20,7 +20,6 @@ function run () {
   tds.wasm_nbOfPrimesFound = attachTdTo(tr)
   document.getElementById('results-table').appendChild(tr)
 
-  const tdsArray = []
   const resultHandler = data => {
     tds[data.name].innerHTML = `<strong>${data.timeTaken}</strong> ms`
     tds[data.name].className = 'normalSpeed'
