@@ -8,6 +8,20 @@
  * @author      The Inovia Dev Team
  */
 
+/**
+ * This is a worker script. It runs the following "benchmarks" one by one, sequentially:
+ * - Plain Javascript
+ * - asm.js
+ * - WebAssembly
+ *
+ * All these benchmarks run the same function, but compiled differently.
+ * The last two benchmarks were build from a C function, the same function as
+ * the one run in 'Plain Javascript'.
+ *
+ * The worker measures the run time of each function and returns it
+ * (by posting a message).
+ **/
+
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
