@@ -2,54 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <style>
-            @import url('https://fonts.googleapis.com/css?family=Roboto');
-            body {
-                font-family: 'Roboto', sans-serif;
-                text-align: center;
-                margin: 0
-            }
-            #wrapper {
-                min-height: calc(100vh - 4rem)
-            }
-            table {
-                margin: auto;
-                border-collapse: collapse
-            }
-            h1 {
-                margin-top: 0;
-                padding-top: 20px
-            }
-            p {
-                margin: 0;
-                padding: 5px
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 5px;
-                width: 150px
-            }
-            td {
-                text-align: right
-            }
-            footer {
-                height: 4rem
-            }
-            .fastSpeed {
-                background-color: #CFC
-            }
-            .normalSpeed {
-                background-color: #FFB
-            }
-            .slowSpeed {
-                background-color: #F99
-            }
-        </style>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+        <title>asm.js / WebAssembly examples</title>
     </head>
     <body>
         <a href="https://github.com/rpellerin/webassembly-experiments"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
         <div id="wrapper">
             <h1>asm.js / WebAssembly examples</h1>
+            <p>This page runs an algorithm which looks for prime numbers between 2 and a given number (must be greater than 2).</p>
+            <p>It is a simple program which purpose is to experiment asm.js and WebAssembly.</p>
+            <p>Specifically, we want to measure code size and run time.</p>
+            <br />
             <form action="" method="post" onsubmit="return false;">
                 Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="100000"/><button onClick="run(); return false;">Show me</button>
             </form>
@@ -58,66 +21,17 @@
                 <thead>
                     <tr>
                         <th>Upper limit</th>
-                        <th>Plain Javascript</th>
-                        <th>asm.js</th>
-                        <th>WebAssembly</th>
+                        <th><a href="plain-javascript.js" title="Source code">Plain Javascript</a></th>
+                        <th><a href="build/build-asm.asm.js" title="Source code">asm.js</a></th>
+                        <th><a href="build/build-wasm.wasm" title="Source code">WebAssembly</a></th>
                     </tr>
                 </thead>
             </table>
         </div>
         <footer>
-            <p>This software is  maintained with love by <a href="https://inovia-team.com">Inovia Team</a>. Made in San Francisco</p>
+            <p>This software is  maintained with &hearts; by <a href="https://inovia-team.com">Inovia Team</a>. Made in San Francisco</p>
             <p><a href="http://vjpr.mit-license.org">MIT</a></p>
         </footer>
-        <script type="text/javascript">
-            function run() {
-                if (!window.Worker) {
-                    alert('Your browser does not support Web Workers.')
-                    return
-                }
-
-                function attachTdTo(tr, val = 'Running...') {
-                    let td = document.createElement('td')
-                    td.innerHTML = val
-                    tr.appendChild(td)
-                    return td
-                }
-
-                const upperLimitPrime = document.getElementById("upper-limit-prime").value;
-                const tr = document.createElement('tr')
-                const tds = {}
-                tds.upperLimitPrime = attachTdTo(tr, upperLimitPrime)
-                tds.plain_nbOfPrimesFound = attachTdTo(tr)
-                tds.asm_nbOfPrimesFound = attachTdTo(tr)
-                tds.wasm_nbOfPrimesFound = attachTdTo(tr)
-                document.getElementById("results-table").appendChild(tr)
-
-                const tdsArray = []
-                const resultHandler = data => {
-                    tds[data.name].innerHTML = `<strong>${data.timeTaken}</strong> ms`
-                    tds[data.name].className = 'normalSpeed'
-                }
-                const readyHandler = data => worker.postMessage({actionType: 'run'})
-                const timeResultsHandler = data => {
-                    tds[data.slow].className = 'slowSpeed'
-                    tds[data.fast].className = 'fastSpeed'
-                }
-
-                var worker = new Worker('worker.js')
-
-                worker.onmessage = ({ data }) => {
-                    switch(data.actionType) {
-                        case 'ready' :
-                            return readyHandler(data)
-                        case 'result':
-                            return resultHandler(data)
-                        case 'timeResults':
-                            return timeResultsHandler(data)
-                    }
-                }
-                worker.postMessage({actionType:'init', upperLimitPrime})
-
-            }
-        </script>
+        <script type="text/javascript" src="script.js"></script>
     </body>
 </html>
