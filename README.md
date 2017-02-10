@@ -34,8 +34,8 @@ It runs a web server accessible at [http://localhost:8080](http://localhost:8080
 
 - Plain Javascript
 - AMS.js (C function compiled into asm.js)
-- WebAssembly (C function compiled into WebAssembly)
-
+- WebAssembly (C function compiled into WebAssembly using `emcc`)
+- WebAssembly imprecise (C function compiled into WebAssembly using `emcc` and the flag `-s BINARYEN_IMPRECISE=1`)
 
 You can also find a native C version as well for baseline comparison.
 
@@ -43,18 +43,20 @@ You can also find a native C version as well for baseline comparison.
 
 On a 2015 Macbook Pro (64-bit) running macOS Sierra 10.12.3. For each method tested, we performed 10 tests and calculated the average time run. We took 500,000 as an upper limit number.
 
-| Method               | Average run time in ms |
-| -------------------- | ---------------------- |
-| Native C             | 11520.5                |
-| Native C optimized   | 9140.9                 |
-| Plain JS Firefox     | 10391.1                |
-| asm.js Firefox       | 8948.4                 |
-| WebAssembly Firefox  | 8999.3                 |
-| Plain JS Chrome      | 10541.8                |
-| asm.js Chrome        | 9728.2                 |
-| WebAssembly Chrome   | 10298.1                |
+| Method                           | Average run time in ms |
+| -------------------------------- | ---------------------- |
+| Native C                         | 11520.5                |
+| Native C optimized               | 9140.9                 |
+| Plain JS Firefox                 | 10391.1                |
+| asm.js Firefox                   | 8948.4                 |
+| WebAssembly (imprecise) Firefox  | 8999.3                 |
+| Plain JS Chrome                  | 10541.8                |
+| asm.js Chrome                    | 9728.2                 |
+| WebAssembly (imprecise) Chrome   | 10298.1                |
 
 ## Example of the program running
+
+In this video, only WebAssembly imprecise was tested.
 
 ![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/screenshot.gif)
 
@@ -99,6 +101,7 @@ Then, build the actual files:
 ```bash
 $ npm run build-asm
 $ npm run build-wasm
+$ npm run build-wasm-imprecise
 ```
 
 They will be output in `build/`, overwriting any previously existing file.
