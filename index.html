@@ -3,11 +3,27 @@
     <head>
         <meta charset="utf-8">
         <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto');
+            body {
+                font-family: 'Roboto', sans-serif;
+                text-align: center;
+                margin: 0
+            }
+            #wrapper {
+                min-height: calc(100vh - 4rem)
+            }
             table {
                 margin: auto;
                 border-collapse: collapse
             }
-            body, thead { text-align: center}
+            h1 {
+                margin-top: 0;
+                padding-top: 20px
+            }
+            p {
+                margin: 0;
+                padding: 5px
+            }
             th, td {
                 border: 1px solid black;
                 padding: 5px;
@@ -15,6 +31,9 @@
             }
             td {
                 text-align: right
+            }
+            footer {
+                height: 4rem
             }
             .fastSpeed {
                 background-color: #CFC
@@ -28,24 +47,29 @@
         </style>
     </head>
     <body>
-        <h1>asm.js / WebAssembly examples</h1>
-        <form action="" method="post" onsubmit="return false;">
-            Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="100000"/><button onClick="run(); return false;">Run</button>
-        </form>
-        <br />
-        <table id="results-table">
-            <thead>
-                <tr>
-                    <th>Upper limit</th>
-                    <th>Plain Javascript</th>
-                    <th>asm.js</th>
-                    <th>WebAssembly</th>
-                </tr>
-            </thead>
-        </table>
+        <a href="https://github.com/rpellerin/webassembly-experiments"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+        <div id="wrapper">
+            <h1>asm.js / WebAssembly examples</h1>
+            <form action="" method="post" onsubmit="return false;">
+                Find prime numbers between 2 and <input min="2" type="number" id="upper-limit-prime" value="100000"/><button onClick="run(); return false;">Show me</button>
+            </form>
+            <br />
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Upper limit</th>
+                        <th>Plain Javascript</th>
+                        <th>asm.js</th>
+                        <th>WebAssembly</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <footer>
+            <p>This software is  maintained with love by <a href="https://inovia-team.com">Inovia Team</a>. Made in San Francisco</p>
+            <p><a href="http://vjpr.mit-license.org">MIT</a></p>
+        </footer>
         <script type="text/javascript">
-
-
             function run() {
                 if (!window.Worker) {
                     alert('Your browser does not support Web Workers.')
