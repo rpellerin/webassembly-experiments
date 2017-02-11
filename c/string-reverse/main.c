@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
     diffms = (t1 - t0) / ( CLOCKS_PER_SEC / 1000 ); // Run time calculation
 
     // Display results
-    printf("Reversed string: '%s'\n\nIn %f ms.\n", result, diffms);
-    //printf("%s\n", result);
+    //printf("Reversed string: '%s'\n\nIn %f ms.\n", result, diffms);
+    printf("%s\n", result);
     free(str);
     free(result);
     return 0;
