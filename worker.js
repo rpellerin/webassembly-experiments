@@ -23,11 +23,11 @@
  **/
 
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
-const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound
+const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound || asmCall._reverseString
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
 const wasm_imprecise_nbOfPrimesFound = () => 'Not loaded yet'
 
-const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfPrimesFound, wasm_imprecise_nbOfPrimesFound}
+const functionsToBench = {asm_nbOfPrimesFound}
 var upperLimitPrime = null
 
 const runHandler = function(data) {
