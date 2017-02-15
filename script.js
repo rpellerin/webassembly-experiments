@@ -47,6 +47,7 @@ function run () {
   const resultHandler = data => {
     tds[data.name].innerHTML = data.error ? data.result : `<strong>${data.timeTaken}</strong> ms`
     tds[data.name].className = 'normalSpeed'
+    console.log(data.result)
   }
 
   const readyHandler = data => worker.postMessage({actionType: 'run'})

@@ -23,7 +23,7 @@
  **/
 
 importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
-const asm_nbOfPrimesFound = asmCall._nbOfPrimesFound || asmCall._reverseString
+const asm_nbOfPrimesFound = (typeof asmCall != 'undefined') ? asmCall._nbOfPrimesFound : ( str => Pointer_stringify(Module._reverseString(allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL))) )
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
 const wasm_imprecise_nbOfPrimesFound = () => 'Not loaded yet'
 
