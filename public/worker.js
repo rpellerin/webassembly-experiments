@@ -27,7 +27,7 @@ const asm_nbOfPrimesFound = (typeof asmCall != 'undefined') ? asmCall._nbOfPrime
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
 const wasm_imprecise_nbOfPrimesFound = () => 'Not loaded yet'
 
-const functionsToBench = {asm_nbOfPrimesFound}
+const functionsToBench = {plain_nbOfPrimesFound, asm_nbOfPrimesFound, wasm_nbOfPrimesFound, wasm_imprecise_nbOfPrimesFound}
 var upperLimitPrime = null
 
 const runHandler = function(data) {
