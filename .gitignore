@@ -12,3 +12,5 @@ npm-debug.log
 public/build/build-c
 public/build/build-c-o3
 public/build/build-asm.js
+c/string-reverse/string-reverse
+c/lodash/head
