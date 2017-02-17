@@ -176,11 +176,11 @@ function decode(typedArray, offset) {
     }
 }
 
-let buffer = new ArrayBuffer(maxSize)
-let writableBuffer = new Uint8Array(buffer)
-
-let objectToSerialize = [{a: 1}, true, false, 34, {a:{b:2,c:4}}]
-encode(objectToSerialize, writableBuffer, 0)
-//debug(writableBuffer)
-let result = decode(writableBuffer, 0)
-debug(result)
+//let testBuffer = new ArrayBuffer(maxSize)
+//let writableBuffer = new Uint8Array(testBuffer)
+//
+//let objectToSerialize = [{a: 1}, true, false, 34, {a:{b:2,c:4}}]
+//encode(objectToSerialize, writableBuffer, 0)
+////debug(writableBuffer)
+//let result = decode(writableBuffer, 0)
+//debug(result)
