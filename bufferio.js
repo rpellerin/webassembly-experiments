@@ -24,6 +24,7 @@ class StringPacket {
         typedArray[offset] = TYPE_STRING
         typedArray[offset + 1] = stringToConvert.length
         for (var i = 0; i < stringToConvert.length; i++) {
+            // charCodeAt returns the representing UTF-16 code unit
             typedArray[offset + 2 + i] = stringToConvert.charCodeAt(i)
         }
         return stringToConvert.length + 2

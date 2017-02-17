@@ -1944,15 +1944,65 @@ function _identity($arg) {
  $0 = $arg$addr;
  STACKTOP = sp;return ($0|0);
 }
+function _getAtIndex($array,$index) {
+ $array = $array|0;
+ $index = $index|0;
+ var $0 = 0, $1 = 0, $2 = 0, $3 = 0, $4 = 0, $5 = 0, $6 = 0, $7 = 0, $8 = 0, $add = 0, $add3 = 0, $array$addr = 0, $arrayidx1 = 0, $arrayidx4 = 0, $cmp = 0, $cmp2 = 0, $index$addr = 0, $retval = 0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 16|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abortStackOverflow(16|0);
+ $array$addr = $array;
+ $index$addr = $index;
+ $0 = $array$addr;
+ $1 = HEAP32[$0>>2]|0;
+ $cmp = ($1|0)==(2);
+ if ($cmp) {
+  $2 = $array$addr;
+  $arrayidx1 = ((($2)) + 4|0);
+  $3 = HEAP32[$arrayidx1>>2]|0;
+  $4 = $index$addr;
+  $add = (($4) + 1)|0;
+  $cmp2 = ($3|0)>=($add|0);
+  if ($cmp2) {
+   $5 = $index$addr;
+   $add3 = (($5) + 2)|0;
+   $6 = $array$addr;
+   $arrayidx4 = (($6) + ($add3<<2)|0);
+   $7 = HEAP32[$arrayidx4>>2]|0;
+   $retval = $7;
+   $8 = $retval;
+   STACKTOP = sp;return ($8|0);
+  }
+ }
+ $retval = -1;
+ $8 = $retval;
+ STACKTOP = sp;return ($8|0);
+}
 function _head($array) {
  $array = $array|0;
- var $0 = 0, $1 = 0, $array$addr = 0, label = 0, sp = 0;
+ var $0 = 0, $1 = 0, $2 = 0, $3 = 0, $4 = 0, $5 = 0, $6 = 0, $array$addr = 0, $arrayidx1 = 0, $arrayidx3 = 0, $cmp = 0, $cmp2 = 0, $retval = 0, label = 0, sp = 0;
  sp = STACKTOP;
  STACKTOP = STACKTOP + 16|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abortStackOverflow(16|0);
  $array$addr = $array;
  $0 = $array$addr;
  $1 = HEAP32[$0>>2]|0;
- STACKTOP = sp;return ($1|0);
+ $cmp = ($1|0)==(2);
+ if ($cmp) {
+  $2 = $array$addr;
+  $arrayidx1 = ((($2)) + 4|0);
+  $3 = HEAP32[$arrayidx1>>2]|0;
+  $cmp2 = ($3|0)>(0);
+  if ($cmp2) {
+   $4 = $array$addr;
+   $arrayidx3 = ((($4)) + 8|0);
+   $5 = HEAP32[$arrayidx3>>2]|0;
+   $retval = $5;
+   $6 = $retval;
+   STACKTOP = sp;return ($6|0);
+  }
+ }
+ $retval = -1;
+ $6 = $retval;
+ STACKTOP = sp;return ($6|0);
 }
 function ___stdio_close($f) {
  $f = $f|0;
@@ -5606,7 +5656,7 @@ var FUNCTION_TABLE_ii = [b0,___stdio_close];
 var FUNCTION_TABLE_iiii = [b1,b1,___stdout_write,___stdio_seek,b1,___stdio_write,b1,b1];
 var FUNCTION_TABLE_vi = [b2,b2,b2,b2,_cleanup_387,b2,b2,b2];
 
-  return { _sbrk: _sbrk, _fflush: _fflush, _pthread_self: _pthread_self, _head: _head, _memset: _memset, _malloc: _malloc, _memcpy: _memcpy, _identity: _identity, _free: _free, ___errno_location: ___errno_location, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_ii: dynCall_ii, dynCall_iiii: dynCall_iiii, dynCall_vi: dynCall_vi };
+  return { _sbrk: _sbrk, _fflush: _fflush, _pthread_self: _pthread_self, _head: _head, _memset: _memset, _malloc: _malloc, _getAtIndex: _getAtIndex, _memcpy: _memcpy, _identity: _identity, _free: _free, ___errno_location: ___errno_location, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_ii: dynCall_ii, dynCall_iiii: dynCall_iiii, dynCall_vi: dynCall_vi };
 })
 // EMSCRIPTEN_END_ASM
 (Module.asmGlobalArg, Module.asmLibraryArg, buffer);
@@ -5641,6 +5691,12 @@ assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it a
 return real__sbrk.apply(null, arguments);
 };
 
+var real__getAtIndex = asm["_getAtIndex"]; asm["_getAtIndex"] = function() {
+assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+return real__getAtIndex.apply(null, arguments);
+};
+
 var real__identity = asm["_identity"]; asm["_identity"] = function() {
 assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
 assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
@@ -5665,6 +5721,7 @@ var _pthread_self = Module["_pthread_self"] = asm["_pthread_self"];
 var _head = Module["_head"] = asm["_head"];
 var _memset = Module["_memset"] = asm["_memset"];
 var _sbrk = Module["_sbrk"] = asm["_sbrk"];
+var _getAtIndex = Module["_getAtIndex"] = asm["_getAtIndex"];
 var _memcpy = Module["_memcpy"] = asm["_memcpy"];
 var _identity = Module["_identity"] = asm["_identity"];
 var _free = Module["_free"] = asm["_free"];
