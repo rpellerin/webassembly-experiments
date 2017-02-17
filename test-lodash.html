@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="main.css" type="text/css" />
+        <script src="lodash.js"></script>
+        <script src="bufferio.js"></script>
+        <title></title>
+    </head>
+    <body>
+        <div id="result"></div>
+        <script defer="true">
+            function identity(objectToSerialize) {
+                const stack = Runtime.stackSave()
+
+                // length = nomber of packets of 32 bytes used to save our objectToSerialize
+                const length = encode(objectToSerialize, HEAPU32, stack)
+
+                const args = new Array(1)
+                args[0] = Runtime.stackAlloc(length << 2) // 4 bytes per item, args[0] equals old STACKTOP
+
+                console.log(HEAPU32.slice(stack, stack+50))
+                let ret = getCFunc('identity')(args) // the value returned by our function
+
+                console.log(ret)
+                Runtime.stackRestore(stack)
+                console.log(HEAPU32.slice(ret, ret+50))
+                return decode(HEAPU32, ret)
+            }
+
+            let objectToSerialize = [{a: 1}, true, 'éêДϿꓷ𠜎', ~0, false, 34, {a:{b:2,c:4}}]
+
+            const result = identity(objectToSerialize)
+
+            console.log('The result is', JSON.stringify(result, null, 2))
+            document.getElementById('result').innerHTML = 'Result: <pre>'+JSON.stringify(result, null, 2)+'</pre>'
+        </script>
+    </body>
+</html>
