@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="main.css" type="text/css" />
         <script src="lodash.js"></script>
         <script src="bufferio.js"></script>
         <title></title>
@@ -11,46 +10,32 @@
     <body>
         <div id="result"></div>
         <script defer="true">
-            function head(objectToSerialize) {
-                const stack = Runtime.stackSave()
+            function callCFunction(name) {
+                return function(objectToSerialize, args) {
+                    const stack = Runtime.stackSave() // Returns STACKTOP
 
-                const args = new Array(1)
-                args[0] = Runtime.stackAlloc(3)
+                    // Serialize on HEAP32 from offset 'stack >> 2', same as serializing on HEAPU8 from offset 'stack'
+                    const length = encode(objectToSerialize, HEAP32, stack >> 2)
 
-                // length = nomber of packets of 32 bytes used to save our objectToSerialize
-                HEAP8.set(new Uint8Array(new Int32Array([109,2,3]).buffer), args[0])
+                    // Allocates 'length << 2' bytes of memory, because we need 4 bytes per unit since we use HEAP32
+                    const offset = Runtime.stackAlloc(length << 2) // Returns old STACKTOP and increases STACKTOP
 
-                console.log(HEAP8.slice(args[0], args[0]+10))
-                let ret = getCFunc('head')(args) // the value returned by our function
+                    const ret = Module.asm['_'+name](offset, ...args) // The value returned by our function (a reference on HEAP)
 
-                Runtime.stackRestore(stack)
-                return ret
+                    Runtime.stackRestore(stack) // Reset STACKTOP to stack
+                    return ret
+                }
             }
-            console.log('head', head())
-
-            function identity(objectToSerialize) {
-                const stack = Runtime.stackSave()
-
-                // length = nomber of packets of 32 bytes used to save our objectToSerialize
-                const length = encode(objectToSerialize, HEAPU32, stack) // encode on the heap
-
-                const args = new Array(1)
-                args[0] = Runtime.stackAlloc(length << 2) // 4 bytes per item, args[0] equals old STACKTOP
-
-                let ret = getCFunc('identity')(args) // the value returned by our function, == args[0] == stack
-
-                console.log(ret)
-                Runtime.stackRestore(stack)
-                //console.log(HEAPU32.slice(ret, ret+50))
-                return decode(HEAPU32, ret)
-            }
-
             let objectToSerialize = [{a: 1}, true, 'éêДϿꓷ𠜎', ~0, false, 34, {a:{b:2,c:4}}]
 
-            const result = identity(objectToSerialize)
+            const resultHead = callCFunction('head')(objectToSerialize, [])
+            console.log('The result of head is', resultHead !== -1 ? decode(HEAP32, resultHead) : 'Invalid input array')
 
-            console.log('The result is', JSON.stringify(result, null, 2))
-            document.getElementById('result').innerHTML = 'Result: <pre>'+JSON.stringify(result, null, 2)+'</pre>'
+            const resultIdentity = callCFunction('identity')(objectToSerialize, [])
+            console.log('The result of identity is', resultIdentity !== -1 ? decode(HEAP32, resultIdentity >> 2) : 'Invalid input array')
+
+            const resultGetAtIndex = callCFunction('getAtIndex')(objectToSerialize, [2])
+            console.log('The result of getAtIndex is', resultGetAtIndex !== -1 ? decode(HEAP32, resultGetAtIndex) : 'Invalid input array')
         </script>
     </body>
 </html>

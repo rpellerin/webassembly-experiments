@@ -4,15 +4,20 @@ void* identity(void* arg) {
     return arg;
 }
 
-
-int head(int* array) {
-    return array[0];
+int getAtIndex(int* array, int index) {
+    if (array[0] == 2 && array[1] >= index + 1) {
+        return array[index + 2];
+    }
+    else {
+        return -1;
+    }
 }
 
-int main(int argc, char* argv[]) {
-    int array[3] = {1,2,3};
-
-    int res = head(array);
-    printf("%d\n", res);
-    return 0;
+int head(int* array) {
+    if (array[0] == 2 && array[1] > 0) {
+        return array[2];
+    }
+    else {
+        return -1;
+    }
 }
