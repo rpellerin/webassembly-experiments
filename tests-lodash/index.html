@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+    </head>
+    <body>
+        <h1>Tests Lodash functions</h1>
+        <button onclick="runTest()">Run the test</button>
+        <div id="results"></div>
+
+        <script>
+            function runTest() {
+                let objectToSerialize = [{a: 1}, true, 'éêДϿꓷ𠜎', ~0, false, 34, {a:{b:2,c:4}}]
+                let numberOfTimes = 3000
+
+                let worker = new Worker('worker.js')
+
+                worker.onmessage =  ({data}) => {
+                    let html =
+                        `<details><summary>
+                        <ul>
+                            <li>Total encoding time for ${numberOfTimes} cycles: ${data.totalEncodingTime} ms</li>
+                            <li>Total running time for ${numberOfTimes} cycles: ${data.totalRunningTime} ms</li>
+                        <li>Total decoding time for ${numberOfTimes} cycles: ${data.totalDecodingTime} ms</li>
+                        </ul>
+                        </summary>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Encoding time</th>
+                                    <th>Running time</th>
+                                    <th>Decoding time</th>
+                                </tr>
+                            </thead>`;
+
+                    for (var i = 0; i < data.details.length; i++) {
+                        var result = data.details[i]
+                        html += `<tr><td>${result.encodingTime}</td><td>${result.runningTime}</td><td>${result.decodingTime}</td></tr>`
+                    }
+                    document.getElementById('results').innerHTML += `${html}</table></details>`
+                }
+
+                worker.postMessage({objectToSerialize, numberOfTimes})
+            }
+        </script>
+    </body>
+</html>
