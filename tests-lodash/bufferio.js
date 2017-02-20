@@ -65,9 +65,9 @@ class ArrayPacket {
 
     static decode(typedArray, offset) {
         const lengthOfArray = typedArray[offset]
-        let output = []
+        let output = [lengthOfArray]
         for (var index = 0; index < lengthOfArray; index++) {
-            output.push(decode(typedArray, typedArray[offset + index + 1]))
+            output[index] = decode(typedArray, typedArray[offset + index + 1])
         }
         return output
     }
@@ -176,12 +176,3 @@ function decode(typedArray, offset) {
         default: throw new Error('Unknown type ' + typedArray[offset] + ' at offset '+ offset)
     }
 }
-
-//let testBuffer = new ArrayBuffer(maxSize)
-//let writableBuffer = new Uint8Array(testBuffer)
-//
-//let objectToSerialize = [{a: 1}, true, false, 34, {a:{b:2,c:4}}]
-//encode(objectToSerialize, writableBuffer, 0)
-////debug(writableBuffer)
-//let result = decode(writableBuffer, 0)
-//debug(result)
