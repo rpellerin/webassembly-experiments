@@ -9,10 +9,15 @@
  */
 
 /**
- * TODO
+ * Worker which calls a function in ASM.js and measures:
+ * - Encoding time
+ * - Running time
+ * - Decoding time
  **/
 
-importScripts('lodash.js', 'bufferio.js')
+if (typeof importScripts !== 'undefined') { // If we are in the context of a worker
+  importScripts('lodash.js', 'bufferio.js')
+}
 
 const callCFunction = function(name) {
   return function(objectToSerialize, args) {
@@ -35,12 +40,13 @@ const callCFunction = function(name) {
   }
 }
 
-
-
 const runTest = function(objectToSerialize, numberOfTimes) {
   const results = {
-    details: []
+    totalEncodingTime: 0,
+    totalRunningTime: 0,
+    totalDecodingTime: 0,
   }
+
   while (numberOfTimes--) {
     let result = callCFunction('identity')(objectToSerialize, [])
     const startTime = performance.now()
@@ -48,22 +54,11 @@ const runTest = function(objectToSerialize, numberOfTimes) {
     result.decodingTime = performance.now() - startTime
 
     // assert(decodedArray == objectToSerialize, 'Decoded object doesn\'t match encoded object')
-    results.details.push(result)
+
+    results.totalEncodingTime += result.encodingTime
+    results.totalRunningTime  += result.runningTime
+    results.totalDecodingTime += result.decodingTime
   }
-
-  let totalEncodingTime = 0
-  let totalRunningTime = 0
-  let totalDecodingTime = 0
-
-  for (let i = 0; i < results.details.length; i++) {
-    totalEncodingTime += results.details[i].encodingTime
-    totalRunningTime  += results.details[i].runningTime
-    totalDecodingTime += results.details[i].decodingTime
-  }
-
-  results.totalEncodingTime = totalEncodingTime
-  results.totalRunningTime  = totalRunningTime
-  results.totalDecodingTime = totalDecodingTime
 
   return results
 }
