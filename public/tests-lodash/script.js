@@ -11,6 +11,7 @@ function run() {
     }
 
     const callback =  ({data}) => {
+        console.log(numberOfTimes, data)
         document.getElementById('results').innerHTML +=
            `<ul>
                 <li>Total encoding time for ${numberOfTimes} cycles: ${data.totalEncodingTime} ms</li>
