@@ -11,20 +11,23 @@ function run() {
     }
 
     const callback =  ({data}) => {
-        console.log(numberOfTimes, data)
-        document.getElementById('results').innerHTML +=
-           `<ul>
-                <li>Total encoding time for ${numberOfTimes} cycles: ${data.totalEncodingTime} ms</li>
-                <li>Total running time for ${numberOfTimes} cycles: ${data.totalRunningTime} ms</li>
-                <li>Total decoding time for ${numberOfTimes} cycles: ${data.totalDecodingTime} ms</li>
-            </ul>`;
+        data.numberOfTimes = numberOfTimes
+        data.lengthArray = N
+        console.log(data)
+        document.getElementById('results').innerHTML =
+           `<pre id="details">${JSON.stringify(data, null, '\t')}</pre>`
     }
     if (USE_WORKER) {
         worker.onmessage = callback
         worker.postMessage({objectToSerialize, numberOfTimes})
-    }
+   }
     else {
+      try {
         const data = runTest(objectToSerialize, numberOfTimes)
         callback({data})
+      }
+      catch (exception) {
+       document.getElementById('results').innerHTML = `<span id="details">${exception}</span>`
+      }
     }
 }
