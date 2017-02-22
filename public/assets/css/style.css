@@ -39,3 +39,7 @@ footer {
 .slowSpeed {
     background-color: #F99
 }
+pre {
+    text-align: left;
+    display: inline-block
+}

@@ -8,7 +8,7 @@ const username  = process.env.SAUCE_USERNAME
 const accessKey = process.env.SAUCE_ACCESS_KEY
 const saucelabs = new SauceLabs({ username, password: accessKey })
 
-const OUTPUT_FILE = __dirname + '/output.txt'
+const OUTPUT_FILE = __dirname + '/saucelabs.log'
 
 class Logger {
   constructor(separator = ',', borders = '') {
@@ -57,7 +57,7 @@ const executeTest = function(index, browserName, platform, version, username, ac
       driver.sessionID = sessionid.id_
       return driver
     })
-    .then( d => d.get('http://romainpellerin.eu/webassembly-experiments/tests-lodash/') )
+    .then( d => d.get('http://romainpellerin.eu/webassembly-experiments/automated-tests-saucelabs.html') )
     .then( () => driver.findElement({id: 'click'}) )
     .then( runButton => runButton.click() )
     .then( () => driver.wait(until.elementLocated(By.id('details')), 3000) )

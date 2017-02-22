@@ -16,7 +16,7 @@
  **/
 
 if (typeof importScripts !== 'undefined') { // If we are in the context of a worker
-  importScripts('lodash.js', 'bufferio.js')
+  importScripts('../../build/lodash.js', 'bufferio.js')
 }
 
 const callCFunction = function(name) {

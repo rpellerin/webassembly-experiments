@@ -13,6 +13,7 @@
     "build-asm": "emcc c/prime.c -o public/build/build-asm.js -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" --separate-asm -s ONLY_MY_CODE=1 && node scripts/format-asm.js public/build/build-asm.asm.js",
     "build-wasm-imprecise": "emcc c/prime.c -o public/build/build-wasm-imprecise.wasm -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" -s WASM=1 -s SIDE_MODULE=1 -s BINARYEN_IMPRECISE=1",
     "build-wasm": "emcc c/prime.c -o public/build/build-wasm.wasm -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" -s WASM=1 -s SIDE_MODULE=1",
-    "serve": "pushstate-server public 8080"
+    "serve": "pushstate-server public 8080",
+    "automated-tests-saucelabs": "node scripts/automated-tests-saucelabs.js"
   }
 }

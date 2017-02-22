@@ -7,7 +7,7 @@ function run() {
     let numberOfTimes = 2160
 
     if (USE_WORKER) {
-        var worker = new Worker('worker.js')
+        var worker = new Worker('assets/js/worker-saucelabs.js')
     }
 
     const callback =  ({data}) => {
