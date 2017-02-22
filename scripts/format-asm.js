@@ -1,3 +1,20 @@
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is licensed exclusively to Inovia Team.
+ *
+ * @copyright   Copyright (c) 2017 Inovia Team (http://www.inovia.fr)
+ * @license     MIT
+ * @author      The Inovia Dev Team
+ */
+
+/**
+ * This file edits an AMS.js file and makes it callable
+ * from a variable `asmCall`. The file to edit must be provided
+ * as an argument to this script.
+ *
+ **/
+
 const fs = require('fs')
 const inputFile = process.argv[2]
 
