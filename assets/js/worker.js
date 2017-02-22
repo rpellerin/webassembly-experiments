@@ -22,7 +22,7 @@
  * (by posting a message).
  **/
 
-importScripts('plain-javascript.js', 'build/build-asm.asm.js', 'load-wasm.js')
+importScripts('plain-javascript.js', '../../build/build-asm.asm.js', 'load-wasm.js')
 const asm_nbOfPrimesFound = (typeof asmCall != 'undefined') ? asmCall._nbOfPrimesFound : ( str => Pointer_stringify(Module._reverseString(allocate(intArrayFromString(str), 'i8', ALLOC_NORMAL))) )
 const wasm_nbOfPrimesFound = () => 'Not loaded yet'
 const wasm_imprecise_nbOfPrimesFound = () => 'Not loaded yet'
@@ -75,8 +75,8 @@ const loadWASM = function(file, functionTested) {
 const initHandler = function(data) {
   upperLimitPrime = data.upperLimitPrime
 
-  const buildWasm          = loadWASM('build/build-wasm.wasm', wasm_nbOfPrimesFound.name)
-  const buildWasmImprecise = loadWASM('build/build-wasm-imprecise.wasm', wasm_imprecise_nbOfPrimesFound.name)
+  const buildWasm          = loadWASM('../../build/build-wasm.wasm', wasm_nbOfPrimesFound.name)
+  const buildWasmImprecise = loadWASM('../../build/build-wasm-imprecise.wasm', wasm_imprecise_nbOfPrimesFound.name)
 
   Promise.all([buildWasm, buildWasmImprecise]).then( values => {
       postMessage({actionType:'ready'})

@@ -60,7 +60,7 @@ function run () {
     }
   }
 
-  var worker = new Worker('worker.js')
+  var worker = new Worker('assets/js/worker.js')
 
   worker.onmessage = ({ data }) => {
     switch (data.actionType) {
