@@ -40,25 +40,17 @@ class Logger {
 const executeTest = function(index, browserName, platform, version, username, accessKey) {
   console.log(`Running test ${index}...`)
 
-  let driver = new webdriver.Builder().withCapabilities({
-    browserName,
-    platform,
-    version,
-    username: username,
-    accessKey: accessKey,
-    name: 'Job '+index,
-  })
-
-  if (browserName === 'firefox' && (+version >= 49) || version === 'beta' || version === 'dev' ) {
-    console.log('Enabling wasm')
-    let profile = new firefox.Profile()
-    profile.setPreference('javascript.options.wasm', true)
-    let options = new firefox.Options().setProfile(profile)
-    driver = driver.setFirefoxOptions(options)
-  }
-
-
-  driver = driver.usingServer(`http://${username}:${accessKey}@ondemand.saucelabs.com:80/wd/hub`).build()
+  let driver = new webdriver.Builder()
+    .withCapabilities({
+      browserName,
+      platform,
+      version,
+      username: username,
+      accessKey: accessKey,
+      name: 'Job '+index,
+    })
+    .usingServer(`http://${username}:${accessKey}@ondemand.saucelabs.com:80/wd/hub`)
+    .build()
 
   return driver.getSession()
     .then( sessionid => {
@@ -66,7 +58,6 @@ const executeTest = function(index, browserName, platform, version, username, ac
       return driver
     })
     .then( d => d.get('http://romainpellerin.eu/webassembly-experiments/tests-lodash/') )
-    .then( () => driver.sleep(50000) )
     .then( () => driver.findElement({id: 'click'}) )
     .then( runButton => runButton.click() )
     .then( () => driver.wait(until.elementLocated(By.id('details')), 3000) )
@@ -93,13 +84,13 @@ const executeTest = function(index, browserName, platform, version, username, ac
 
 const browsers = [
   //{ browserName: 'chrome', version: '48', platform: 'Linux' }, // does not support let, const, etc.
-  // { browserName: 'chrome', version: '56', platform: 'Windows 10' },
-  // { browserName: 'chrome', version: '56', platform: 'Mac 10.12' },
-  // { browserName: 'chrome', version: 'dev', platform: 'Windows 10' },
-  // { browserName: 'chrome', version: 'dev', platform: 'Mac 10.12' },
-  // { browserName: 'chrome', version: 'beta', platform: 'Windows 10' },
-  // { browserName: 'chrome', version: 'beta', platform: 'Mac 10.12' },
-  // { browserName: 'firefox', version: '45', platform: 'Linux' },
+  { browserName: 'chrome', version: '56', platform: 'Windows 10' },
+  { browserName: 'chrome', version: '56', platform: 'Mac 10.12' },
+  { browserName: 'chrome', version: 'dev', platform: 'Windows 10' },
+  { browserName: 'chrome', version: 'dev', platform: 'Mac 10.12' },
+  { browserName: 'chrome', version: 'beta', platform: 'Windows 10' },
+  { browserName: 'chrome', version: 'beta', platform: 'Mac 10.12' },
+  { browserName: 'firefox', version: '45', platform: 'Linux' },
   { browserName: 'firefox', version: '51', platform: 'Windows 10' },
   { browserName: 'firefox', version: '51', platform: 'Mac 10.12' },
   { browserName: 'firefox', version: 'dev', platform: 'Windows 10' },
