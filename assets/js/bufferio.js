@@ -1,6 +1,24 @@
-// Size of the serialized object
-const maxSize = 20000
-// activate or deactivate the debug function
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is licensed exclusively to Inovia Team.
+ *
+ * @copyright   Copyright (c) 2017 Inovia Team (http://www.inovia.fr)
+ * @license     MIT
+ * @author      The Inovia Dev Team
+ */
+
+/**
+ * This file contains a serializing protocol. It encodes and decodes Javascript
+ * data structures (objects, arrays, booleans, strings, and numbers).
+ * Any of the above-mentionned structures, no matter how complex it is,
+ * can be encoded or decoded.
+ *
+ * encode() and decode() functions must be provided with a Typed Array and
+ * an offset (can be 0) to write in/read from.
+ **/
+
+// Activate or deactivate the debug function
 const IS_DEBUG_ACTIVE = true
 const debug = IS_DEBUG_ACTIVE ? console.log : () => {}
 
@@ -123,12 +141,14 @@ class BoolPacket {
  * ObjectPacket
  *
  * Structure of the Packet
- * [ Type, RefKeys, RefValues, [ Key1, Key2, ... ], [ Val1, Val2, ... ] ]
+ * [ Type, RefKeys, RefValues, [ Key 0, Key 1, ..., Key N-1 ], [ Val 0, Val 1, ..., Val N-1 ] ]
  *
  * Positions
  * Type := offset
  * RefKeys := offset + 1
  * RefValues := offset + 2
+ * Key X := offset + 3 + X
+ * Val X := offset + 3 + N + X
  */
 class ObjectPacket {
     static encode(inputObject, typedArray, offset) {
