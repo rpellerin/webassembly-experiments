@@ -8,7 +8,7 @@ Type the url `about:config`, click 'I accept the risk', then change the followin
 
 - javascript.options.wasm: true
 
-<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/ff-wasm-activate.png" alt="Screenshot" width="600" />
+<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/assets/images/ff-wasm-activate.png" alt="Screenshot" width="600" />
 
 
 ## Configure Chrome for WebAssembly (>= 56.0)
@@ -18,7 +18,7 @@ Type the url `chrome://flags/`, enable the following flags:
 - Experimental Validate asm.js and convert to WebAssembly when valid
 - WebAssembly structured cloning support
 
-<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/chrome-wasm-activate.png" alt="Screenshot" width="700" />
+<img src="https://github.com/rpellerin/webassembly-experiments/blob/master/public/assets/images/chrome-wasm-activate.png" alt="Screenshot" width="700" />
 
 
 ## Run the examples
@@ -58,7 +58,7 @@ On a 2015 Macbook Pro (64-bit) running macOS Sierra 10.12.3. For each method tes
 
 In this video, only WebAssembly imprecise was tested.
 
-![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/screenshot.gif)
+![Screenshot](https://github.com/rpellerin/webassembly-experiments/blob/master/public/assets/images/screenshot.gif)
 
 ## Build from source
 
