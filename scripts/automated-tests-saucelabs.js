@@ -85,7 +85,7 @@ const executeTest = function (index, browserName, platform, version, username, a
     .then(resultsDetails => resultsDetails.getText())
     .then(details => {
       const result = JSON.parse(details)
-      result.browser = `${browserName} v${version}`
+      result.browser = `${browserName} ${version}`
       result.platform = platform
       logger.addObject(result)
       return true
