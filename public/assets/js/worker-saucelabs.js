@@ -9,10 +9,19 @@
  */
 
 /**
- * Worker which calls a function in ASM.js and measures:
+ * This file calls a C function compiled in ASM.js. It measures the:
  * - Encoding time
  * - Running time
  * - Decoding time
+ *
+ * Before passing the payload it receives to the C function, it
+ * encodes the payload and decodes the result of the function
+ * using 'bufferio.js'. It then returns the result to its caller.
+ *
+ * The AMS.js code comes from '../../build/build-lodash.js'.
+ *
+ * This file can be used as a worker or as a normal script by calling
+ * its functions directly.
  **/
 
 if (typeof importScripts !== 'undefined') { // If we are in the context of a worker
@@ -50,16 +59,16 @@ const runTest = function(objectToSerialize, numberOfTimes) {
   while (numberOfTimes--) {
     let result = callCFunction('identity')(objectToSerialize, [])
     const startTime = performance.now()
-    const decodedArray = decode(HEAP32, result.returnedValue >> 2) // identity needs >> 2
+    const decodedResult = decode(HEAP32, result.returnedValue >> 2) // identity needs >> 2
     result.decodingTime = performance.now() - startTime
 
-    // assert(decodedArray == objectToSerialize, 'Decoded object doesn\'t match encoded object')
+    // TODO
+    // assert(decodedResult == objectToSerialize, 'Decoded object doesn\'t match encoded object')
 
     results.totalEncodingTime += result.encodingTime
     results.totalRunningTime  += result.runningTime
     results.totalDecodingTime += result.decodingTime
   }
-
   return results
 }
 
