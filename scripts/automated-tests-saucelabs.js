@@ -85,6 +85,9 @@ const executeTest = function (index, browserName, platform, version, username, a
     .then(resultsDetails => resultsDetails.getText())
     .then(details => {
       const result = JSON.parse(details)
+      result.totalEncodingTime = Math.round(result.totalEncodingTime * 100) / 100
+      result.totalDecodingTime = Math.round(result.totalDecodingTime * 100) / 100
+      result.totalRunningTime = Math.round(result.totalRunningTime * 100) / 100
       result.browser = `${browserName} ${version}`
       result.platform = platform
       logger.addObject(result)
