@@ -1,29 +1,47 @@
+const fs        = require('fs')
 const webdriver = require('selenium-webdriver')
-const until = webdriver.until
-const By = webdriver.By
+const firefox   = require('selenium-webdriver/firefox')
+const until     = webdriver.until
+const By        = webdriver.By
 const SauceLabs = require('saucelabs')
-const username = process.env.SAUCE_USERNAME
+const username  = process.env.SAUCE_USERNAME
 const accessKey = process.env.SAUCE_ACCESS_KEY
 const saucelabs = new SauceLabs({ username, password: accessKey })
 
-const logResult = function(index, browserName, platform, version) {
-  return function(results) {
-    console.log(`Results test n°${index}`)
+const OUTPUT_FILE = __dirname + '/output.txt'
 
-    results.browserName = browserName
-    results.platform = platform
-    results.browserVersion = version
-    console.log(results)
+class Logger {
+  constructor(separator = ',', borders = '') {
+    this.logs = []
+    this.separator = separator
+    this.borders = borders
+  }
+
+  get allLogs() {
+    return this.logs.map( line => {
+      return this.borders + line.join(this.separator) + this.borders
+    }).join('\n')
+  }
+
+  addObject(object) {
+    const arrayToAdd = []
+    const keys = Object.keys(object).sort()
+    for (let i = 0; i < keys.length; i++) {
+      arrayToAdd.push(object[keys[i]])
+    }
+    this.logs.push(arrayToAdd)
+  }
+
+  addArray(array) {
+    this.logs.push(array)
   }
 }
 
 const executeTest = function(index, browserName, platform, version, username, accessKey) {
   console.log(`Running test ${index}...`)
 
-  const logger = logResult(index, browserName, platform, version)
-
-  let driver = new webdriver.Builder().
-    withCapabilities({
+  let driver = new webdriver.Builder()
+    .withCapabilities({
       browserName,
       platform,
       version,
@@ -34,7 +52,7 @@ const executeTest = function(index, browserName, platform, version, username, ac
     .usingServer(`http://${username}:${accessKey}@ondemand.saucelabs.com:80/wd/hub`)
     .build()
 
-  driver.getSession()
+  return driver.getSession()
     .then( sessionid => {
       driver.sessionID = sessionid.id_
       return driver
@@ -44,8 +62,13 @@ const executeTest = function(index, browserName, platform, version, username, ac
     .then( runButton => runButton.click() )
     .then( () => driver.wait(until.elementLocated(By.id('details')), 3000) )
     .then( resultsDetails => resultsDetails.getText() )
-    .then( details => logger(JSON.parse(details)) )
-    .then( () => true )
+    .then( details => {
+      const result = JSON.parse(details)
+      result.browser = `${browserName} v${version}`
+      result.platform = platform
+      logger.addObject(result)
+      return true
+    })
     .catch( error => {
       console.log('Error', error)
       return false
@@ -57,8 +80,6 @@ const executeTest = function(index, browserName, platform, version, username, ac
         passed: passed
       }, null)
     })
-
-  return driver
 }
 
 const browsers = [
@@ -88,6 +109,18 @@ const promises = browsers.map( (browser, index) => {
     accessKey)
 })
 
-Promise.all(promises)
-  .then(values => console.log('Finished all promises', values))
+const logger = new Logger('|', '|')
+logger.addArray(['Browser', 'Length of array', 'Number of loops', 'Plateform', 'Total encoding time', 'Total decoding time', 'Total running time'])
+logger.addArray(['---', '---', '---', '---', '---', '---', '---'])
+
+
+Promise.all(promises).then(values => {
+    console.log('Finished all promises')
+    const logs = logger.allLogs
+    console.log(logs)
+    fs.writeFile(OUTPUT_FILE, logs, {encoding: 'utf8', flag: 'w'}, (error) => {
+      if (error) throw err
+      console.log(`Results output to ${OUTPUT_FILE}`)
+    })
+  })
   .catch(error => console.log('Error all promises', error))
