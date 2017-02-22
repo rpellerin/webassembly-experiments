@@ -14,6 +14,7 @@
     "build-wasm-imprecise": "emcc c/prime.c -o public/build/build-wasm-imprecise.wasm -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" -s WASM=1 -s SIDE_MODULE=1 -s BINARYEN_IMPRECISE=1",
     "build-wasm": "emcc c/prime.c -o public/build/build-wasm.wasm -O3 -s EXPORTED_FUNCTIONS=\"['_nbOfPrimesFound']\" -s WASM=1 -s SIDE_MODULE=1",
     "serve": "pushstate-server public 8080",
+    "build-lodash": "emcc c/lodash/lodash.c -o public/build/build-lodash.js -s EXPORTED_FUNCTIONS=\"['_identity', '_head', '_getAtIndex']\" -s ASM_JS=1",
     "automated-tests-saucelabs": "node scripts/automated-tests-saucelabs.js"
   }
 }
