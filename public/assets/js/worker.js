@@ -75,8 +75,8 @@ const loadWASM = function(file, functionTested) {
 const initHandler = function(data) {
   upperLimitPrime = data.upperLimitPrime
 
-  const buildWasm          = loadWASM('../../build/build-wasm.wasm', wasm_nbOfPrimesFound.name)
-  const buildWasmImprecise = loadWASM('../../build/build-wasm-imprecise.wasm', wasm_imprecise_nbOfPrimesFound.name)
+  const buildWasm          = loadWASM('../../build/build-wasm.wasm', 'wasm_nbOfPrimesFound') // wasm.nbOfPrimesFound.name doesn't work in Firefox
+  const buildWasmImprecise = loadWASM('../../build/build-wasm-imprecise.wasm', 'wasm_imprecise_nbOfPrimesFound') // same as above
 
   Promise.all([buildWasm, buildWasmImprecise]).then( values => {
       postMessage({actionType:'ready'})
